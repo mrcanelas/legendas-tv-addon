@@ -1,0 +1,21 @@
+{
+  "name": "legendas-tv-addon",
+  "version": "1.0.0",
+  "description": "Unofficial subtitle provider for Legendas.tv",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "author": "mrcanelas",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "express": "^4.17.1",
+    "fast-levenshtein": "^3.0.0",
+    "legendas-tv": "^1.0.2",
+    "memfs": "^3.2.2",
+    "needle": "^2.6.0",
+    "node-unrar-js": "^1.0.3",
+    "parse-torrent-title": "^1.3.0",
+    "unzip-stream": "^0.3.1"
+  }
+}
