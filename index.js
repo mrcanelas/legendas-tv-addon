@@ -85,7 +85,6 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
 
 addon.get("/:credentials/app/lib/subs/:subtitleLocation", async function (req, res) {
 const subtitleLocation = req.params.subtitleLocation.split('[sep]')
-console.log(subtitleLocation)
 const subtitle = subtitleLocation.filter(i => i.includes('.srt'))[0]
 const path = '/app/lib/subs/' + subtitleLocation.join('/')
 res.setHeader("content-type", "application/x-subrip");
