@@ -63,7 +63,9 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
           );
           const subtitle = {
             id: bestMatch.distance,
-            url: 'https://legendas-tv-addon.herokuapp.com/' + bestMatch.path.replace(/([/])/g, '[sep]'),
+            url: 'https://legendas-tv-addon.herokuapp.com/app/lib/subs/' + 
+            bestMatch.split('/subs/')[1]
+            .replace(/([/])/g, '[sep]'),
             lang: 'PT-BR [legendas.tv]'
           }
           respond(appRes, { subtitles: [subtitle] });
@@ -82,8 +84,7 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
 })
 
 addon.get("app/lib/subs/:subtitleLocation", async function (req, res) {
-const subtitleLocation = req.params.subtitleLocation
-console.log(subtitleLocation)
+const subtitleLocation = req.params.subtitleLocation.split('[sep]')
 const subtitle = subtitleLocation.filter(i => i.includes('.srt'))[0]
 const path = '/app/lib/subs/' + subtitleLocation.join('/')
 res.setHeader("content-type", "application/x-subrip");
