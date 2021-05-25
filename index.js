@@ -1,5 +1,5 @@
 const express = require("express");
-const ptt = require("parse-torrent-title");
+const toTitle = require('imdbid-to-title');
 const addon = express();
 const path = require('path');
 const SEP = path.sep;
@@ -38,13 +38,15 @@ addon.get("/:credentials/manifest.json", async function (req, res) {
 });
 
 addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (req, appRes) {
+  const [imdbId, season, episode] = req.params.imdbId.split(':')
   const credentials = req.params.credentials
   const type = req.params.type
   const release = (req.params.query.split("&")[2].split("=")[1]).slice(0, -4);
-  const parse = ptt.parse(release)
-  const season = (parse.season < 10) ? 'S0' + parse.season : 'S' + parse.season
-  const episode = (parse.episode < 10) ? 'E0' + parse.episode : 'E' + parse.episode
-  const name = (type == 'movie') ? parse.title.replace(/ /g, '.') : parse.title.replace(/ /g, '.') + '.' + season + episode
+  const title = await toTitle(imdbId);
+  const Season = (season < 10) ? 'S0' + season : 'S' + season
+  const Episode = (episode < 10) ? 'E0' + episode : 'E' + episode
+  const name = (type == 'movie') ? title.replace(/ /g, '.') : title.replace(/ /g, '.') + '.' + Season + Episode
+  console.log(name)
   subtitleService
     .findSubtitle({
       name,
