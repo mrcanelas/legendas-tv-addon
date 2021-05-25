@@ -61,11 +61,12 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
             subtitleLocation,
             release
           );
+          const url = bestMatch.path.replace('/app/lib/subs/', 'https://legendas-tv-addon.herokuapp.com/lib/subs/')
+          const sep = url.split('/subs/')
+          const new_url = sep[1].replace(/\\/g, '[sep]')
           const subtitle = {
             id: bestMatch.distance,
-            url: bestMatch.path
-            .replace('/app/lib/subs/', 'https://legendas-tv-addon.herokuapp.com/lib/subs/')
-            .replace(/\\/g, '[sep]'),
+            url: sep[0] + '/subs/' + new_url,
             lang: 'PT-BR [legendas.tv]'
           }
           respond(appRes, { subtitles: [subtitle] });
@@ -86,7 +87,7 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
 addon.get("/lib/subs/:subtitleLocation", async function (req, res) {
 const subtitleLocation = req.params.subtitleLocation.split('[sep]')
 const subtitle = subtitleLocation.filter(i => i.includes('.srt'))[0]
-const path = 'C:\\Users\\Silas\\Documents\\GitHub\\legendas-tv-addon\\lib\\subs\\' + subtitleLocation.join('\\')
+const path = '/app/lib/subs/' + subtitleLocation.join('/')
 res.setHeader("content-type", "application/x-subrip");
           res.setHeader(
             "Content-Disposition",
