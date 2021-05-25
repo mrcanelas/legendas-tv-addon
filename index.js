@@ -61,13 +61,9 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
             subtitleLocation,
             release
           );
-          const url = bestMatch.path.replace('/app/lib/subs/', 'https://legendas-tv-addon.herokuapp.com/lib/subs/')
-          const sep = url.split('/subs/')
-          const bar = new RegExp('/', 'g')
-          const new_url = sep[1].replaceAll(bar, '[sep]')
           const subtitle = {
             id: bestMatch.distance,
-            url: sep[0] + '/subs/' + new_url,
+            url: bestMatch.path,
             lang: 'PT-BR [legendas.tv]'
           }
           respond(appRes, { subtitles: [subtitle] });
