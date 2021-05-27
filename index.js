@@ -22,8 +22,21 @@ addon.get("/", async function (req, res) {
 });
 
 addon.get("/manifest.json", async function (req, res) {
-  const credentials = undefined
-  const resp = await manifestService.getManifest(credentials);
+  const resp = {
+    id: "legendas-tv-addon",
+    version: "0.0.1",
+    name: "Legendas.tv Addon",
+    logo: "https://imgur.com/lA48YZQ.jpg",
+    description: "Unofficial subtitle provider for Legendas.tv",
+    types: ["movie", "series"],
+    resources: ["subtitles"],
+    catalogs: [],
+    idPrefixes: ["tt"],
+    behaviorHints: {
+      configurable: true,
+      configurationRequired: true,
+    },
+  };
   respond(res, resp);
 });
 
@@ -33,7 +46,8 @@ addon.get("/:language?/configure", async function (req, res) {
 
 addon.get("/:credentials/manifest.json", async function (req, res) {
   const credentials = req.params.credentials
-  const resp = await manifestService.getManifest(credentials);
+  const cookies = await downloadService.getCookies(credentials)
+  const resp = await manifestService.getManifest(cookies);
   respond(res, resp);
 });
 
@@ -46,7 +60,6 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
   const Season = (season < 10) ? 'S0' + season : 'S' + season
   const Episode = (episode < 10) ? 'E0' + episode : 'E' + episode
   const name = (type == 'movie') ? title.replace(/ /g, '.') : title.replace(/ /g, '.') + '.' + Season + Episode
-  console.log(name)
   subtitleService
     .findSubtitle({
       name,
