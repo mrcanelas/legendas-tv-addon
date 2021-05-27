@@ -20,6 +20,10 @@ addon.get("/", async function (req, res) {
   res.redirect("/configure")
 });
 
+addon.get("/favicon.ico", function (req, res) {
+  res.sendFile(path.join(__dirname+'/favicon.ico'));
+});
+
 addon.get("/manifest.json", async function (req, res) {
   const resp = {
     id: "legendas-tv-addon",
