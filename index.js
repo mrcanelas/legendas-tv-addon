@@ -1,5 +1,4 @@
 const express = require("express");
-const toTitle = require('imdbid-to-title');
 const addon = express();
 const path = require('path');
 const SEP = path.sep;
@@ -56,7 +55,7 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
   const credentials = req.params.credentials
   const type = req.params.type
   const release = (req.params.query.split("&")[2].split("=")[1]).slice(0, -4);
-  const title = await toTitle(imdbId);
+  const title = await downloadService.getName(imdbId);
   const Season = (season < 10) ? 'S0' + season : 'S' + season
   const Episode = (episode < 10) ? 'E0' + episode : 'E' + episode
   const name = (type == 'movie') ? title.replace(/ /g, '.') : title.replace(/ /g, '.') + '.' + Season + Episode
