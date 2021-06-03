@@ -12,7 +12,7 @@
     "express": "^4.17.1",
     "fast-levenshtein": "^3.0.0",
     "legendas-tv": "^1.0.2",
-    "memfs": "^3.2.2",
+    "memfs": "git+https://github.com/mrcanelas/memfs.git",
     "needle": "^2.6.0",
     "node-unrar-js": "^1.0.3",
     "unzip-stream": "^0.3.1"
