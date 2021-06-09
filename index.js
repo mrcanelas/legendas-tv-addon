@@ -8,7 +8,6 @@ const subtitleService = require("./lib/subtitle.service");
 const extractorService = require("./lib/extractor.service");
 const downloadService = require("./lib/download.service");
 
-
 const respond = function (res, data) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Headers', '*');
@@ -73,20 +72,22 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
       const link = resSub[0].result.linkLegenda;
 
       downloadService.downloadSubtitle(link, credentials).then(res => {
-        const subtitleLocation = `${downloadService.subtitlesDir}${SEP}${release}`;
+        const subtitleLocation = `${downloadService.subtitlesDir}${SEP}${name}`;
         const successExtraction = () => {
-          const bestMatch = subtitleService.findBestSRT(
-            subtitleLocation,
-            release
-          );
-          const subtitle = {
-            id: bestMatch.distance,
-            url: `https://legendas-tv-addon.herokuapp.com/${credentials}/app/lib/subs/` + 
-            bestMatch.path.split('/subs/')[1]
-            .replace(/([/])/g, '[sep]'),
-            lang: 'PT-BR [legendas.tv]'
-          }
-          respond(appRes, { subtitles: [subtitle] });
+          const arrayOfFiles= subtitleService.getAllFiles(subtitleLocation)
+          const allSubs = subtitleService.findBestSRT(arrayOfFiles, release);
+          const subtitle = allSubs.map((obj, i) => {
+            if(obj !== undefined){
+              return {
+                id: i + 1,
+                url: `https://legendas-tv-addon.herokuapp.com/${credentials}/app/lib/subs/` + 
+                obj.path.split('/subs/')[1]
+                .replace(/([/])/g, '[sep]'),
+                lang: 'PT-BR [legendas.tv]'
+                }
+            }
+          })
+          respond(appRes, { subtitles: subtitle });
         };
 
         extractorService.extractSubtitle(
