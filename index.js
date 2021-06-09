@@ -80,7 +80,7 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
             if(obj !== undefined){
               return {
                 id: i + 1,
-                url: __dirname + `/${credentials}/app/lib/subs/` + 
+                url: path.join(__dirname+`/${credentials}/app/lib/subs/`) + 
                 obj.path.split('/subs/')[1]
                 .replace(/([/])/g, '[sep]'),
                 lang: 'PT-BR [legendas.tv]'
