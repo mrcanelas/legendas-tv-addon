@@ -87,7 +87,7 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
                 }
             }
           })
-          respond(appRes, { subtitles: subtitle });
+          respond(appRes, { subtitles: subtitle.filter(x => x) });
         };
 
         extractorService.extractSubtitle(
