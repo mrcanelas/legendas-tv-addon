@@ -252,7 +252,7 @@
         const password = $('#pass').val()
         const credentials = username + ':' + password
         if (username != '') {
-          installLink.href = 'http://' + window.location.host + '/' + credentials + '/manifest.json';
+          installLink.href = 'stremio://' + window.location.host + '/' + credentials + '/manifest.json';
         }
       }
     </script>
