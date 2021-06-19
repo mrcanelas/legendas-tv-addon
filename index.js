@@ -61,7 +61,7 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
   const Season = (season < 10) ? 'S0' + season : 'S' + season
   const Episode = (episode < 10) ? 'E0' + episode : 'E' + episode
   const name = (type == 'movie') ? title.replace(/ /g, '.') : title.replace(/ /g, '.') + '.' + Season + Episode
-  const release = ((req.params.query.split("&")[2].split("=")[1]).slice(0, -4) !== undefined) 
+  const release = ((req.params.query.split("&")[2]) !== undefined) 
   ? (req.params.query.split("&")[2].split("=")[1]).slice(0, -4) 
   : name;
 
