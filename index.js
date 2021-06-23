@@ -83,7 +83,7 @@ addon.get("/:credentials/subtitles/:type/:imdbId/:query.json", async function (r
             if(obj !== undefined){
               return {
                 id: i + 1,
-                url: `https://legendas-tv-addon.herokuapp.com/${credentials}/app/lib/subs/` + 
+                url: `http://127.0.0.1:11470/subtitles.vtt?from=https://legendas-tv-addon.herokuapp.com/${credentials}/app/lib/subs/` + 
                 obj.path.split('/subs/')[1]
                 .replace(/([/])/g, '[sep]'),
                 lang: 'PT-BR [legendas.tv]'
